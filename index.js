@@ -10,12 +10,13 @@ const io = socketio(server);
 io.on('connection', (socket) => {
     console.log(' a user connected');
 
-    socket.on('from_client',()=>{
-        
+    socket.on('msg_send',(data)=>{
+        console.log(data);
+        // io.emit('msg_rcvd', data) //-->give message to all the clinet connected to server
+        //socket.emit('msg_rcvd', data)//--> give message to same client the one who send the message
+        socket.broadcast.emit('msg_rcvd', data) //-->except the one who send message it will give message to all client
     })
-    setInterval(()=>{
-        socket.emit('from_server')
-    },2000)
+  
 });
 
 
